@@ -29,10 +29,12 @@ public class Teacher {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    private String email;
 
     @OneToOne(cascade = {MERGE, REFRESH, DETACH}, orphanRemoval = true)
     @JoinColumn(name = "course_id")
     @JsonIgnore
     private Course course;
+
+    @OneToOne(cascade = ALL)
+    private AuthInfo authInfo;
 }

@@ -13,7 +13,7 @@ public class GetTeacherMapper implements Converter<Teacher,GetTeacherDto> {
         getTeacherDto.setId(teacher.getId());
         getTeacherDto.setFirstName(teacher.getFirstName());
         getTeacherDto.setLastName(teacher.getLastName());
-        getTeacherDto.setEmail(teacher.getEmail());
+        getTeacherDto.setEmail(teacher.getAuthInfo().getEmail());
         getTeacherDto.setCourseId(teacher.getCourse().getId());
         return getTeacherDto;
     }

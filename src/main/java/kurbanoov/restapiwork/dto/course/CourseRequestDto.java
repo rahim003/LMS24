@@ -1,5 +1,6 @@
 package kurbanoov.restapiwork.dto.course;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kurbanoov.restapiwork.entity.Company;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class CourseRequestDto {
     private String courseName;
     @NotNull
     private String duration;
+    @JsonIgnore
     private Company company;
     private Long companyId;
 }

@@ -16,6 +16,7 @@ public class GroupApi {
     private final GroupService groupService;
 
     @PostMapping("/save")
+
     public GroupResponse saveGroup(@RequestBody GroupRequestDto groupRequestDto) {
         return groupService.save(groupRequestDto);
     }

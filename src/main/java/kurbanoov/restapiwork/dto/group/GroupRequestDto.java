@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class GroupRequestDto {
     private String groupName;
+    @JsonIgnore
     private Course course;
     private Long courseId;
 }

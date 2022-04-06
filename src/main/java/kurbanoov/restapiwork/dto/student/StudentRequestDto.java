@@ -1,5 +1,6 @@
 package kurbanoov.restapiwork.dto.student;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kurbanoov.restapiwork.entity.Group;
 import kurbanoov.restapiwork.entity.StudyFormat;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class StudentRequestDto {
     private String firstName;
     @Email
     private String email;
+    @JsonIgnore
     private Group group;
     private Long groupId;
     private StudyFormat studyFormat;

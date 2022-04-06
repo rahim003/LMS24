@@ -13,6 +13,7 @@ import kurbanoov.restapiwork.repository.TeacherRepository;
 import kurbanoov.restapiwork.service.TeacherService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,28 +28,23 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherMapper teacherMapper;
     private final GetTeacherMapper getTeacherMapper;
     private final CourseRepository courseRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public TeacherResponse save(TeacherRequestDto teacherRequestDto) {
-        String email = teacherRequestDto.getEmail();
-        boolean exists = teacherRepository.existsByEmail(email);
-        if (exists) {
-            throw new BadRequestException(
-                    String.format("student with email = %s has already exists", email)
-            );
-        }
-        if (courseRepository.getById(teacherRequestDto.getCourseId()).getTeacher() == null) {
-            teacherRequestDto.setCourse(courseRepository.getById(teacherRequestDto.getCourseId()));
+//        String email = teacherRequestDto.getEmail();
+//        boolean exists = teacherRepository.existsByAndAuthInfoEmail(email);
+//        if (exists) {
+//            throw new BadRequestException(
+//                    String.format("student with email = %s has already exists", email)
+//            );
+//        }
+        String encoderPassword=passwordEncoder.encode(teacherRequestDto.getPassword());
+        teacherRequestDto.setPassword(encoderPassword);
             teacherRequestDto.setCourse(courseRepository.getById(teacherRequestDto.getCourseId()));
             Teacher teacher = teacherMapper.convert(teacherRequestDto);
             Teacher save = teacherRepository.save(teacher);
             return teacherMapper.deConvert(save);
-        } else {
-            System.out.println("kata");
-            return null;
-        }
-
-
     }
 
     @Override
@@ -89,11 +85,6 @@ public class TeacherServiceImpl implements TeacherService {
         String newLastName = teacherRequestDto.getLastName();
         if (!currentLastName.equals(newLastName)) {
             teacher.setLastName(newLastName);
-        }
-        String currentEmail = teacher.getEmail();
-        String newEmail = teacherRequestDto.getEmail();
-        if (!currentEmail.equals(newEmail)) {
-            teacher.setEmail(newEmail);
         }
         return teacherMapper.deConvert(teacher);
     }
